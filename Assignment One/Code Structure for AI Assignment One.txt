@@ -1,0 +1,62 @@
+Code Structure
+
+Overview of code as a whole
+1.1- Part One of this Assignment consisted of evolving a string so that it contained all 1s in every location
+
+My solution to this question was initially to create an intial population of size 100 of which each member consisted of a string of length 30 made up of either 0s or 1s in each position, I then developed both mutation and one point crossover functions that would be used to help improve the average fitness of the population over generations. I then created a fitness function that could be used to count the fitness, the number of ones in each string. I combined all these and created a geneticEvolution function which used my mutation and onePointCrossover functions to create new "fitter" populations based on the population before them, the averageFitness function was used to find the average fitness of each generation, this function was then looped over 50 generations each one showing an improvement on the average fitness of the population before them, after a number of iterations this averageFitness reached 30 which was the optimum based on the string length.I could then plot a graph of the fitness over the generations.
+
+1.2- Part Two of this assignment centred on evolving a string to reach and match a defined target string consisting of both 1s and 0s
+
+In order to complete this question I created a new similarityToTargetScore which gave each string a score based on its similarity to the defined target string, The mutation function was also adapted in order to only change bits of the string that were not the same as the target string, this combination ensured that the strings in the population most similar to the target string were placed in a list from which the parents for the next generation were chosen, ensuring the best 20 strings in each generation would be used to create the new generation, a crossoverPoint threshold was added to ensure the mutations would not take place too quickly and allowed the algorithm to explore as opposed to exploit the problem space. This was ran for 100 generations or until the target string was found in the population, the average fitness of each generation was also logged and graphed 
+
+1.3- Part Three involved investigating how the algorithm handled dealing with a deceptive problem 
+
+My solution for this problem involved modifying the fitness function so that if the deceptive fitness of all zeros was achieved the algorithm would return this, however if it was not it would log the average fitness of the population over Generations, no further modifications were made to the mutate or onePointCrossover functions and geneticAlgorithm for this question remained largely unchanged to that of the initial algorithm
+
+
+Main Components
+
+createInitialPopulation() - this function was responsible for creating an intial population of a custom size and ensuring this population contained strings with a combination of 1s and 0s in each location
+avgFitness() - this function was responsible for gathering the average fitness of each generation and was used to plot results
+mutate() - this function was used to mutate bits within strings inside the population to aid the algorithm in exploring the optimum results for the question
+onePointCrossover() - this was used to combine different portions of the 2 parent strings and ensure there was diversity within each child produced and therefore the population as a whole
+geneticEvolution() - this was the main base for the geneticAlgorithm where all other aspects and functions were tied together in order to explore results for the defined task
+plottingFitness() - this was used to plot and graph the average fitness of the population across generations
+
+
+Imports
+
+random - random was imported to allow relatively random rates for mutation and also when choosing parents in each generation
+random.choice - this was used to choose parents within each population
+matplotlib - this was used to plot graphs of the average fitness of each generation
+
+
+Flow of excecution
+
+1.1- defined createInitialPopulation(), avgFitness(),mutate(),onePointCrossover() and geneticEvolution()
+     createInitialPopulation was called and the results used as a parameter for geneticEvolution()
+     geneticEvolution called and called avgFitness(),mutate() and onePointCrossover()
+     plottingFitness() was defined and called after geneticEvolution() had finished iterating
+
+1.2- defined targetString, fitnessScore(), evolvingMutation(), similarityToTargetScore(), targetedGeneticEvolution()
+     targetedGeneticEvolution() was defined and called calling fitnessScore(),evolvingMutation(),onePointCrossover() and similarityToTargetScore() in the process
+     plottingFitness() was called to plot average fitness over the generations
+
+1.3- defined deceptiveFitnessProblem(), deceptiveAvgFitnessOfPop() and deceptiveGeneticEvolution()
+     deceptiveGeneticEvolution was called calling deceptiveFitnessProblem(), deceptiveAvgFitnessOfPop() along with onePointCrossover() and mutation()
+     plottingFitness was called when deceptiveGeneticEvolution terminated
+
+
+Testing
+
+Testing for all 3 questions revolved around examining the results and ensuring they resembled what they were intended to,
+- this involved ensuring 1.1 reached 30 and gradually built towards it
+- involved ensuring 1.2 found and matched the target string defined within the set number of generations, and examining fitness averages to see if it consistently moved towards it
+- involved checking to see if the maximum deceptive fitness was found and if not that the algorithm had not realised the maximum fitness for the problem was not all 1s
+
+
+Performance Optimizers
+
+mutation rate - influenced the level of exploration of the algorithm ensuring it didnt exploit the problem and immediately find the optimum solution without exploring the problem first
+crossover rate - the probability that the offspring of a generation are made by crossover
+population sizes - the larger the population size for particular problems namely 1.2 and 1.3 increased the chance the optimum solution would be found by chance as opposed to by genetic evolution
